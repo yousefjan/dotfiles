@@ -75,27 +75,26 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
- (after! evil
+(after! evil
   (require 'evil-collection))
 
-(add-to-list 'default-frame-alist '(alpha-background . 0))
-(set-frame-parameter nil 'alpha-background 0)
+(after! solaire-mode
+  (solaire-global-mode -1))
 
-;; Force default face background to be transparent
-(defun my/transparent-background ()
-  (set-face-attribute 'default nil :background "unspecified")
-  (set-face-background 'default "unspecified-bg"))
+(defun my/make-all-faces-transparent (&optional frame)
+  "Remove background color from ALL faces in terminal Emacs."
+  (or frame (setq frame (selected-frame)))
+  (unless (display-graphic-p frame)
+    (set-face-background 'default "unspecified-bg" frame)
+    (mapc (lambda (face)
+            (when (facep face)
+              (let ((bg (face-background face nil nil)))
+                (when (and bg (not (string= bg "unspecified-bg")))
+                  (set-face-background face "unspecified-bg" frame)))))
+          (face-list))))
 
-(add-hook 'doom-load-theme-hook #'my/transparent-background)
+(add-hook 'doom-load-theme-hook #'my/make-all-faces-transparent)
+(add-hook 'after-make-frame-functions #'my/make-all-faces-transparent)
+(add-hook 'window-setup-hook #'my/make-all-faces-transparent)
 
-(add-hook 'doom-load-theme-hook
-  (lambda ()
-    (dolist (face '(default
-                    fringe
-                    mode-line
-                    mode-line-inactive
-                    line-number
-                    line-number-current-line
-                    region))
-      (when (facep face)
-        (set-face-background face "unspecified")))))
+(my/make-all-faces-transparent)
