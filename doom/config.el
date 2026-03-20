@@ -36,7 +36,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -96,5 +96,58 @@
 (add-hook 'doom-load-theme-hook #'my/make-all-faces-transparent)
 (add-hook 'after-make-frame-functions #'my/make-all-faces-transparent)
 (add-hook 'window-setup-hook #'my/make-all-faces-transparent)
+(add-hook 'server-after-make-frame-hook #'my/make-all-faces-transparent)
 
 (my/make-all-faces-transparent)
+
+(after! diff-hl
+  (global-diff-hl-mode +1)
+  (diff-hl-flydiff-mode +1)
+  (unless (display-graphic-p)
+    (diff-hl-margin-mode +1))
+  (set-face-attribute 'diff-hl-insert nil :foreground "green"  :background 'unspecified)
+  (set-face-attribute 'diff-hl-delete nil :foreground "red"    :background 'unspecified)
+  (set-face-attribute 'diff-hl-change nil :foreground "yellow" :background 'unspecified))
+(add-hook 'after-make-frame-functions
+          (lambda (frame)
+            (unless (display-graphic-p frame)
+              (diff-hl-margin-mode +1))))
+
+(defun my/yank-to-clipboard ()
+  "Yank to system clipboard via Evil's + register."
+
+  (let ((evil-this-register ?+))
+    (call-interactively #'evil-yank)))
+
+(defun my/yank-line-to-clipboard ()
+  "Yank current line to system clipboard via Evil's + register."
+  (interactive)
+  (let ((evil-this-register ?+))
+    (call-interactively #'evil-yank-line)))
+
+(map! :leader
+      :desc "Yank to system clipboard"      "y" #'my/yank-to-clipboard
+      :desc "Yank line to system clipboard" "Y" #'my/yank-line-to-clipboard)
+
+(defun my/setup-selection-face ()
+  (unless (display-graphic-p)
+    (set-face-attribute 'region nil
+                        :background "brightblack"
+                        :foreground "white"
+                        :extend t)))
+(add-hook 'doom-load-theme-hook #'my/setup-selection-face 10)
+
+(after! evil-goggles
+  (set-face-attribute 'evil-goggles-default-face nil
+                      :background "brightblack"
+                      :foreground "white"))
+
+(setq scroll-margin 8)
+
+(after! which-key
+  (setq which-key-idle-delay 0.5))
+
+(add-function :after after-focus-change-function
+              (lambda ()
+                (unless (frame-focus-state)
+                  (save-some-buffers t))))
