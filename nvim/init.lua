@@ -158,6 +158,17 @@ vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
 
 -- Quick file navigation
 vim.keymap.set("n", "<leader>e", ":Explore<CR>", { desc = "Open file explorer" })
+
+-- h/l to navigate directory tree
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "netrw",
+  callback = function()
+    local opts = { buffer = true, remap = true }
+    vim.keymap.set("n", "h", "-", opts)          -- go up a directory
+    vim.keymap.set("n", "l", "<CR>", opts)        -- open file/directory
+  end,
+})
 vim.keymap.set("n", "<leader>ff", ":find ", { desc = "Find file" })
 
 -- Better J behavior
