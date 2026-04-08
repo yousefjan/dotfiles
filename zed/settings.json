@@ -1,0 +1,24 @@
+{
+  "show_edit_predictions": false,
+  "icon_theme": "Zed (Default)",
+  "vim_mode": true,
+
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+
+  "theme": {
+    "mode": "dark",
+    "light": "Ayu Light",
+    "dark": "Ayu Dark",
+  },
+
+  "relative_line_numbers": "enabled",
+  "cursor_blink": true,
+
+  "wrap_guides": [100],
+
+  "tab_size": 2,
+  "hard_tabs": false,
+
+  "vertical_scroll_margin": 10,
+}
