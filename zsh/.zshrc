@@ -1,6 +1,9 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 alias python=python3
 alias ls='ls -lah'
+alias vim=nvim
+alias ta='tmux attach'
+alias td='tmux detach'
 
 # bun completions
 [ -s "/Users/yousefjan/.bun/_bun" ] && source "/Users/yousefjan/.bun/_bun"

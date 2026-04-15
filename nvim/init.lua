@@ -1,3 +1,7 @@
+-- disable netrw before plugins load
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -14,14 +18,12 @@ require("lazy").setup({
     'nvim-telescope/telescope.nvim',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      { 'nvim-telescope/telescope-fzf-native.nvim',  build = 'make' },
-      { 'nvim-telescope/telescope-file-browser.nvim' },
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     },
     keys = {
       { '<leader>ff', '<cmd>Telescope find_files<cr>' },
       { '<leader>fg', '<cmd>Telescope live_grep<cr>' },
       { '<leader>fb', '<cmd>Telescope buffers<cr>' },
-      { '<leader>e',  '<cmd>Telescope file_browser<cr>' },
     },
   },
   {
@@ -40,6 +42,51 @@ require("lazy").setup({
         changedelete = { text = '~' },
       },
     },
+  },
+  {
+    'stevearc/oil.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    opts = {
+      default_file_explorer = true,
+      view_options = { show_hidden = true },
+      keymaps = {
+        ['l'] = { 'actions.select', opts = {}, desc = 'Open file or directory' },
+        ['h'] = { 'actions.parent', desc = 'Go to parent directory' },
+      },
+    },
+    keys = {
+      { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
+      { '<leader>e', '<cmd>Oil<cr>', desc = 'Open file explorer' },
+    },
+  },
+  {
+    "nvim-neorg/neorg",
+    lazy = false,
+    version = "*",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        opts = {},
+      },
+    },
+    config = function()
+      require("neorg").setup({
+        load = {
+          ["core.defaults"] = {},
+          ["core.concealer"] = {},
+          ["core.dirman"] = {
+            config = {
+              workspaces = {
+                notes = "~/notes",
+              },
+              default_workspace = "notes",
+            },
+          },
+        },
+      })
+    end,
   },
   {
     "iamcco/markdown-preview.nvim",

@@ -1,4 +1,13 @@
 {
+  "which_key": {
+    "delay_ms": 1000,
+  },
+  "autosave": "on_focus_change",
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry",
+    },
+  },
   "show_edit_predictions": false,
   "icon_theme": "Zed (Default)",
   "vim_mode": true,
@@ -9,7 +18,7 @@
   "theme": {
     "mode": "dark",
     "light": "Ayu Light",
-    "dark": "Ayu Dark",
+    "dark": "macOS Classic Dark",
   },
 
   "relative_line_numbers": "enabled",

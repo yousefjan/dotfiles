@@ -10,27 +10,25 @@
     "context": "Workspace",
     "bindings": {
       "\\ f f": "file_finder::Toggle",
-      "\\ f g": "workspace::NewSearch",
-      "\\ f b": "tab_switcher::Toggle",
-      "\\ f e": "project_panel::ToggleFocus",
+      "\\ g": "workspace::NewSearch",
+      "\\ b": "tab_switcher::Toggle",
+      "\\ e": "project_panel::ToggleFocus",
+      "\\ a": "agent::ToggleFocus",
     },
   },
   {
     "context": "Editor && vim_mode == normal",
     "bindings": {
-      "\\ d": "editor::Delete",
-
       "g d": "editor::GoToDefinition",
       "g D": "editor::GoToDeclaration",
       "g r": "editor::FindAllReferences",
       "g i": "editor::GoToImplementation",
 
-      "k": "editor::Hover",
+      "K": "editor::Hover",
       "ctrl-k": "editor::ShowSignatureHelp",
 
       "\\ c a": "editor::ToggleCodeActions",
       "\\ r n": "editor::Rename",
-
       "\\ f m": "editor::Format",
 
       "\\ w": "workspace::Save",
